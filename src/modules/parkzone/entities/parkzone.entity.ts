@@ -16,13 +16,13 @@ export class Parkzone {
   @Column({ name: 'name', type: 'varchar', length: 80 })
   name: string;
 
-  @Column({ name: 'cnpj', type: 'varchar', length: 15, unique: true })
+  @Column({ name: 'cnpj', type: 'varchar', length: 18, unique: true })
   cnpj: string;
 
   @Column({ name: 'adress', type: 'varchar', length: 150 })
   address: string;
 
-  @Column({ name: 'phone', type: 'varchar', length: 11 })
+  @Column({ name: 'phone', type: 'varchar', length: 14 })
   phone: string;
 
   @Column({ name: 'num_motorcyle_spots', type: 'int' })

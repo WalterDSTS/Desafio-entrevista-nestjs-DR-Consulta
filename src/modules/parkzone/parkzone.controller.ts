@@ -1,9 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { ParkzoneService } from './parkzone.service';
 import { CreateParkzoneDto } from './dto/create-parkzone.dto';
 import { UpdateParkzoneDto } from './dto/update-parkzone.dto';
 
-@Controller('parkzone')
+@Controller('parkzones')
 export class ParkzoneController {
   constructor(private readonly parkzoneService: ParkzoneService) {}
 
@@ -17,18 +27,22 @@ export class ParkzoneController {
     return this.parkzoneService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.parkzoneService.findOne(+id);
+  @Get(':parkzoneId')
+  findOne(@Param('parkzoneId') parkzoneId: string) {
+    return this.parkzoneService.findOne(parkzoneId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateParkzoneDto: UpdateParkzoneDto) {
-    return this.parkzoneService.update(+id, updateParkzoneDto);
+  @Put(':parkzoneId')
+  update(
+    @Param('parkzoneId') parkzoneId: string,
+    @Body() updateParkzoneDto: UpdateParkzoneDto,
+  ) {
+    return this.parkzoneService.update(parkzoneId, updateParkzoneDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.parkzoneService.remove(+id);
+  @Delete(':parkzoneId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  remove(@Param('parkzoneId') parkzoneId: string) {
+    return this.parkzoneService.remove(parkzoneId);
   }
 }
