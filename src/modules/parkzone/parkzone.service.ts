@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateParkzoneDto } from './dto/create-parkzone.dto';
 import { UpdateParkzoneDto } from './dto/update-parkzone.dto';
@@ -12,23 +12,45 @@ export class ParkzoneService {
     private readonly parkzoneRepo: Repository<Parkzone>,
   ) {}
 
-  create(createParkzoneDto: CreateParkzoneDto) {
-    return 'This action adds a new parkzone';
+  async create(createParkzoneDto: CreateParkzoneDto) {
+    const { cnpj } = createParkzoneDto;
+
+    const parkzoneExists = await this.parkzoneRepo.findOne({
+      where: { cnpj },
+    });
+
+    if (parkzoneExists) {
+      throw new InternalServerErrorException(
+        'This Parkzone is already registered.',
+      );
+    }
+
+    const parkZone = this.parkzoneRepo.create(createParkzoneDto);
+
+    return this.parkzoneRepo.save(parkZone);
   }
 
   findAll() {
-    return `This action returns all parkzone`;
+    return this.parkzoneRepo.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} parkzone`;
+  findOne(parkzoneId: string) {
+    return this.parkzoneRepo.findOneBy({
+      id: parkzoneId,
+    });
   }
 
-  update(id: number, updateParkzoneDto: UpdateParkzoneDto) {
-    return `This action updates a #${id} parkzone`;
+  async update(parkzoneId: string, updateParkzoneDto: UpdateParkzoneDto) {
+    const parkzone = await this.parkzoneRepo.findOneBy({
+      id: parkzoneId,
+    });
+
+    this.parkzoneRepo.merge(parkzone, updateParkzoneDto);
+
+    return this.parkzoneRepo.save(parkzone);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} parkzone`;
+  async remove(parkzoneId: string) {
+    return !!(await this.parkzoneRepo.delete(parkzoneId));
   }
 }
