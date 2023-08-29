@@ -1,5 +1,12 @@
+import { User } from 'src/modules/users/entities/user.entity';
 import { Vehicle } from 'src/modules/vehicles/entities/vehicle.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('parkzone')
 export class Parkzone {
@@ -26,4 +33,7 @@ export class Parkzone {
 
   @OneToMany(() => Vehicle, (vehicle) => vehicle.parkzone)
   vehicles: Vehicle[];
+
+  @ManyToMany(() => User, (user) => user.parkzones)
+  users: User[];
 }

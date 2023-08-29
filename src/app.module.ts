@@ -3,6 +3,10 @@ import { DatabaseModule } from './shared/database/database.module';
 import { ParkzoneModule } from './modules/parkzone/parkzone.module';
 import { VehiclesModule } from './modules/vehicles/vehicles.module';
 import { ConfigModule } from '@nestjs/config';
+import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './modules/auth/auth.guard';
 
 @Module({
   imports: [
@@ -10,8 +14,15 @@ import { ConfigModule } from '@nestjs/config';
     DatabaseModule,
     ParkzoneModule,
     VehiclesModule,
+    UsersModule,
+    AuthModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
 })
 export class AppModule {}
