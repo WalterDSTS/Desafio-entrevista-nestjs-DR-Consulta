@@ -39,21 +39,21 @@ export class ParkzoneService {
   }
 
   async findOne(parkZoneId: string) {
+    await this.validateIfParkzoneExists(parkZoneId);
+
     const parkZone = await this.parkZoneRepo.findOneBy({
       id: parkZoneId,
     });
-
-    if (!parkZone) throw new NotFoundException('ParkZone not found.');
 
     return parkZone;
   }
 
   async update(parkZoneId: string, updateParkzoneDto: UpdateParkZoneDto) {
+    await this.validateIfParkzoneExists(parkZoneId);
+
     const parkZone = await this.parkZoneRepo.findOneBy({
       id: parkZoneId,
     });
-
-    if (!parkZone) throw new NotFoundException('ParkZone not found.');
 
     this.parkZoneRepo.merge(parkZone, updateParkzoneDto);
 
@@ -61,12 +61,16 @@ export class ParkzoneService {
   }
 
   async remove(parkZoneId: string) {
+    await this.validateIfParkzoneExists(parkZoneId);
+
+    return await this.parkZoneRepo.delete(parkZoneId);
+  }
+
+  private async validateIfParkzoneExists(parkZoneId: string) {
     const parkZone = await this.parkZoneRepo.findOneBy({
       id: parkZoneId,
     });
 
     if (!parkZone) throw new NotFoundException('ParkZone not found.');
-
-    return await this.parkZoneRepo.delete(parkZoneId);
   }
 }
