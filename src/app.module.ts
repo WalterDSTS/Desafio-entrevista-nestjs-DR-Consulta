@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from './shared/database/database.module';
-import { ParkzoneModule } from './modules/parkzone/parkzone.module';
+import { ParkZoneModule } from './modules/parkzone/parkzone.module';
 import { VehiclesModule } from './modules/vehicles/vehicles.module';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './modules/users/users.module';
@@ -12,7 +12,7 @@ import { AuthGuard } from './modules/auth/auth.guard';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
-    ParkzoneModule,
+    ParkZoneModule,
     VehiclesModule,
     UsersModule,
     AuthModule,

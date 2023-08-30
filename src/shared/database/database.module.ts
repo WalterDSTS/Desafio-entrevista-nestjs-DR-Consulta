@@ -12,7 +12,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       database: process.env.MYSQL_DATABASE,
       autoLoadEntities: true,
       synchronize: true,
-      logging: true,
+      // logging: true,
     }),
   ],
 })

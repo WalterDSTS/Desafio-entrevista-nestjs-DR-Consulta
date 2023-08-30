@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 
 @Entity('parkzone')
-export class Parkzone {
+export class ParkZone {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -25,15 +25,15 @@ export class Parkzone {
   @Column({ name: 'phone', type: 'varchar', length: 14 })
   phone: string;
 
-  @Column({ name: 'num_motorcyle_spots', type: 'int' })
-  numberOfMotorcycleSpots: number;
+  @Column({ name: 'qtt_motorcyle_spots', type: 'int' })
+  qttMotorcycleSpots: number;
 
-  @Column({ name: 'num_cars_spots', type: 'int' })
-  numberOfCarSpots: number;
+  @Column({ name: 'qtt_cars_spots', type: 'int' })
+  qttCarSpots: number;
 
   @OneToMany(() => Vehicle, (vehicle) => vehicle.parkzone)
   vehicles: Vehicle[];
 
-  @ManyToMany(() => User, (user) => user.parkzones)
+  @ManyToMany(() => User, (user) => user.parkZones)
   users: User[];
 }

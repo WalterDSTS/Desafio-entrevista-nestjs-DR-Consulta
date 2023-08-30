@@ -10,15 +10,15 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { ParkzoneService } from './parkzone.service';
-import { CreateParkzoneDto } from './dto/create-parkzone.dto';
-import { UpdateParkzoneDto } from './dto/update-parkzone.dto';
+import { CreateParkZoneDto } from './dto/create-parkzone.dto';
+import { UpdateParkZoneDto } from './dto/update-parkzone.dto';
 
-@Controller('parkzones')
+@Controller('parkZones')
 export class ParkzoneController {
   constructor(private readonly parkzoneService: ParkzoneService) {}
 
   @Post()
-  create(@Body() createParkzoneDto: CreateParkzoneDto) {
+  create(@Body() createParkzoneDto: CreateParkZoneDto) {
     return this.parkzoneService.create(createParkzoneDto);
   }
 
@@ -27,22 +27,22 @@ export class ParkzoneController {
     return this.parkzoneService.findAll();
   }
 
-  @Get(':parkzoneId')
-  findOne(@Param('parkzoneId') parkzoneId: string) {
-    return this.parkzoneService.findOne(parkzoneId);
+  @Get(':parkZoneId')
+  findOne(@Param('parkZoneId') parkZoneId: string) {
+    return this.parkzoneService.findOne(parkZoneId);
   }
 
-  @Put(':parkzoneId')
+  @Put(':parkZoneId')
   update(
-    @Param('parkzoneId') parkzoneId: string,
-    @Body() updateParkzoneDto: UpdateParkzoneDto,
+    @Param('parkZoneId') parkZoneId: string,
+    @Body() updateParkzoneDto: UpdateParkZoneDto,
   ) {
-    return this.parkzoneService.update(parkzoneId, updateParkzoneDto);
+    return this.parkzoneService.update(parkZoneId, updateParkzoneDto);
   }
 
-  @Delete(':parkzoneId')
+  @Delete(':parkZoneId')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('parkzoneId') parkzoneId: string) {
-    return this.parkzoneService.remove(parkzoneId);
+  remove(@Param('parkZoneId') parkZoneId: string) {
+    return this.parkzoneService.remove(parkZoneId);
   }
 }

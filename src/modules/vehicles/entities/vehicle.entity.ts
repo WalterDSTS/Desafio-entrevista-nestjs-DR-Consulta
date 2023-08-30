@@ -1,4 +1,4 @@
-import { Parkzone } from 'src/modules/parkzone/entities/parkzone.entity';
+import { ParkZone } from 'src/modules/parkzone/entities/parkzone.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { VehicleType } from './Vehicle';
 
@@ -16,7 +16,7 @@ export class Vehicle {
   @Column({ name: 'color', type: 'varchar', length: 20 })
   color: string;
 
-  @Column({ name: 'license_plate', type: 'varchar', length: 7 })
+  @Column({ name: 'license_plate', type: 'varchar', unique: true, length: 8 })
   licensePlate: string;
 
   @Column({ name: 'type', type: 'enum', enum: VehicleType })
@@ -25,12 +25,12 @@ export class Vehicle {
   @Column({ name: 'entrance_at', type: 'timestamp', update: false })
   parkingEntrance: Date;
 
-  @Column({ name: 'exit_at', type: 'timestamp', update: false })
+  @Column({ name: 'exit_at', type: 'timestamp', default: null })
   parkingExit: Date;
 
-  @Column()
+  @Column({ name: 'paid', default: false })
   paid: boolean;
 
-  @ManyToOne(() => Parkzone, (parkzone) => parkzone.vehicles)
-  parkzone: Parkzone;
+  @ManyToOne(() => ParkZone, (parkZone) => parkZone.vehicles)
+  parkzone: ParkZone;
 }

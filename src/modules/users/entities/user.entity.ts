@@ -1,4 +1,4 @@
-import { Parkzone } from 'src/modules/parkzone/entities/parkzone.entity';
+import { ParkZone } from 'src/modules/parkzone/entities/parkzone.entity';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('user')
@@ -15,6 +15,6 @@ export class User {
   @Column({ name: 'password', type: 'varchar', length: 60 })
   password: string;
 
-  @ManyToMany(() => Parkzone)
-  parkzones: Parkzone[];
+  @ManyToMany(() => ParkZone)
+  parkZones: ParkZone[];
 }

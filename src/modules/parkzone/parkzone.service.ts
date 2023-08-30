@@ -1,56 +1,56 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateParkzoneDto } from './dto/create-parkzone.dto';
-import { UpdateParkzoneDto } from './dto/update-parkzone.dto';
+import { CreateParkZoneDto } from './dto/create-parkzone.dto';
+import { UpdateParkZoneDto } from './dto/update-parkzone.dto';
 import { Repository } from 'typeorm';
-import { Parkzone } from './entities/parkzone.entity';
+import { ParkZone } from './entities/parkzone.entity';
 
 @Injectable()
 export class ParkzoneService {
   constructor(
-    @InjectRepository(Parkzone)
-    private readonly parkzoneRepo: Repository<Parkzone>,
+    @InjectRepository(ParkZone)
+    private readonly parkZoneRepo: Repository<ParkZone>,
   ) {}
 
-  async create(createParkzoneDto: CreateParkzoneDto) {
+  async create(createParkzoneDto: CreateParkZoneDto) {
     const { cnpj } = createParkzoneDto;
 
-    const parkzoneExists = await this.parkzoneRepo.findOne({
+    const parkZoneExists = await this.parkZoneRepo.findOne({
       where: { cnpj },
     });
 
-    if (parkzoneExists) {
+    if (parkZoneExists) {
       throw new InternalServerErrorException(
         'This Parkzone is already registered.',
       );
     }
 
-    const parkZone = this.parkzoneRepo.create(createParkzoneDto);
+    const parkZone = this.parkZoneRepo.create(createParkzoneDto);
 
-    return this.parkzoneRepo.save(parkZone);
+    return this.parkZoneRepo.save(parkZone);
   }
 
   findAll() {
-    return this.parkzoneRepo.find();
+    return this.parkZoneRepo.find();
   }
 
-  findOne(parkzoneId: string) {
-    return this.parkzoneRepo.findOneBy({
-      id: parkzoneId,
+  findOne(parkZoneId: string) {
+    return this.parkZoneRepo.findOneBy({
+      id: parkZoneId,
     });
   }
 
-  async update(parkzoneId: string, updateParkzoneDto: UpdateParkzoneDto) {
-    const parkzone = await this.parkzoneRepo.findOneBy({
-      id: parkzoneId,
+  async update(parkZoneId: string, updateParkzoneDto: UpdateParkZoneDto) {
+    const parkzone = await this.parkZoneRepo.findOneBy({
+      id: parkZoneId,
     });
 
-    this.parkzoneRepo.merge(parkzone, updateParkzoneDto);
+    this.parkZoneRepo.merge(parkzone, updateParkzoneDto);
 
-    return this.parkzoneRepo.save(parkzone);
+    return this.parkZoneRepo.save(parkzone);
   }
 
-  async remove(parkzoneId: string) {
-    return !!(await this.parkzoneRepo.delete(parkzoneId));
+  async remove(parkZoneId: string) {
+    return !!(await this.parkZoneRepo.delete(parkZoneId));
   }
 }

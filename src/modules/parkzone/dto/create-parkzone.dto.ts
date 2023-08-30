@@ -6,7 +6,7 @@ import {
   Length,
 } from 'class-validator';
 
-export class CreateParkzoneDto {
+export class CreateParkZoneDto {
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -26,9 +26,9 @@ export class CreateParkzoneDto {
 
   @IsPositive()
   @IsNotEmpty()
-  numberOfMotorcycleSpots: number;
+  qttMotorcycleSpots: number;
 
   @IsPositive()
   @IsNotEmpty()
-  numberOfCarSpots: number;
+  qttCarSpots: number;
 }

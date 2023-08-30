@@ -1,26 +1,80 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { UpdateVehicleDto } from './dto/update-vehicle.dto';
+import { Vehicle } from './entities/vehicle.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ParkZone } from '../parkzone/entities/parkzone.entity';
 
 @Injectable()
 export class VehiclesService {
-  create(createVehicleDto: CreateVehicleDto) {
-    return 'This action adds a new vehicle';
+  constructor(
+    @InjectRepository(Vehicle)
+    private readonly vehicleRepo: Repository<Vehicle>,
+    @InjectRepository(ParkZone)
+    private readonly parkZoneRepo: Repository<ParkZone>,
+  ) {}
+
+  async create(parkzoneId: string, createVehicleDto: CreateVehicleDto) {
+    const { licensePlate } = createVehicleDto;
+
+    const vehicleExists = await this.vehicleRepo.findOne({
+      where: { licensePlate },
+    });
+
+    if (vehicleExists) {
+      throw new InternalServerErrorException(
+        'This vehicle is already registered.',
+      );
+    }
+
+    const parkzone = await this.parkZoneRepo.findOneBy({
+      id: parkzoneId,
+    });
+
+    if (!parkzone) {
+      throw new NotFoundException('Parkzone not found.');
+    }
+
+    const vehicle = this.vehicleRepo.create({
+      ...createVehicleDto,
+      parkzone,
+    });
+
+    return this.vehicleRepo.save(vehicle);
   }
 
   findAll() {
-    return `This action returns all vehicles`;
+    return this.vehicleRepo.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} vehicle`;
+  async findOne(licensePlate: string) {
+    const vehicle = await this.vehicleRepo.findOne({
+      where: { licensePlate: licensePlate },
+    });
+
+    if (!vehicle) {
+      throw new NotFoundException('Vehicle not found.');
+    }
+
+    return vehicle;
   }
 
-  update(id: number, updateVehicleDto: UpdateVehicleDto) {
-    return `This action updates a #${id} vehicle`;
-  }
+  async update(licensePlate: string, updateVehicleDto: UpdateVehicleDto) {
+    const vehicle = await this.vehicleRepo.findOne({
+      where: { licensePlate: licensePlate },
+    });
 
-  remove(id: number) {
-    return `This action removes a #${id} vehicle`;
+    if (!vehicle) {
+      throw new NotFoundException('Vehicle not found.');
+    }
+
+    await this.vehicleRepo.update(vehicle.id, updateVehicleDto);
+
+    return vehicle;
   }
 }

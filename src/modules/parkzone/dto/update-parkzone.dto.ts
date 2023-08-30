@@ -1,3 +1,3 @@
-import { CreateParkzoneDto } from './create-parkzone.dto';
+import { CreateParkZoneDto } from './create-parkzone.dto';
 
-export class UpdateParkzoneDto extends CreateParkzoneDto {}
+export class UpdateParkZoneDto extends CreateParkZoneDto {}
