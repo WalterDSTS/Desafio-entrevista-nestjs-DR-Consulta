@@ -6,7 +6,7 @@ import {
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { UpdateVehicleDto } from './dto/update-vehicle.dto';
 import { Vehicle } from './entities/vehicle.entity';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ParkZone } from '../parkzone/entities/parkzone.entity';
 
@@ -23,11 +23,11 @@ export class VehiclesService {
     const { licensePlate } = createVehicleDto;
 
     const vehicleExists = await this.vehicleRepo.findOne({
-      where: { licensePlate },
+      where: { licensePlate, parkingExit: IsNull() },
     });
 
     if (vehicleExists) {
-      throw new ConflictException('This vehicle is already registered.');
+      throw new ConflictException('This vehicle is still parked.');
     }
 
     const parkzone = await this.parkZoneRepo.findOneBy({
@@ -52,7 +52,7 @@ export class VehiclesService {
 
   async findOne(licensePlate: string) {
     const vehicle = await this.vehicleRepo.findOne({
-      where: { licensePlate: licensePlate },
+      where: { licensePlate: licensePlate, parkingExit: IsNull() },
     });
 
     if (!vehicle) {
@@ -64,7 +64,7 @@ export class VehiclesService {
 
   async update(licensePlate: string, updateVehicleDto: UpdateVehicleDto) {
     const vehicle = await this.vehicleRepo.findOne({
-      where: { licensePlate: licensePlate },
+      where: { licensePlate: licensePlate, parkingExit: IsNull() },
     });
 
     if (!vehicle) {
@@ -72,7 +72,5 @@ export class VehiclesService {
     }
 
     await this.vehicleRepo.update(vehicle.id, updateVehicleDto);
-
-    return vehicle;
   }
 }

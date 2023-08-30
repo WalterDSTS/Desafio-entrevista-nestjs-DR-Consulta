@@ -1,6 +1,6 @@
 import {
+  ConflictException,
   Injectable,
-  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -24,9 +24,7 @@ export class ParkzoneService {
     });
 
     if (parkZoneExists) {
-      throw new InternalServerErrorException(
-        'This Parkzone is already registered.',
-      );
+      throw new ConflictException('This Parkzone is already registered.');
     }
 
     const parkZone = this.parkZoneRepo.create(createParkzoneDto);

@@ -6,6 +6,8 @@ import {
   Param,
   Patch,
   ParseUUIDPipe,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { VehiclesService } from './vehicles.service';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
@@ -34,6 +36,7 @@ export class VehiclesController {
   }
 
   @Patch(':licensePlate')
+  @HttpCode(HttpStatus.NO_CONTENT)
   update(
     @Param('licensePlate') licensePlate: string,
     @Body() updateVehicleDto: UpdateVehicleDto,

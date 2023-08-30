@@ -16,7 +16,7 @@ export class Vehicle {
   @Column({ name: 'color', type: 'varchar', length: 20 })
   color: string;
 
-  @Column({ name: 'license_plate', type: 'varchar', unique: true, length: 8 })
+  @Column({ name: 'license_plate', type: 'varchar', length: 8 })
   licensePlate: string;
 
   @Column({ name: 'type', type: 'enum', enum: VehicleType })
