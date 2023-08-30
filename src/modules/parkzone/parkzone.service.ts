@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateParkZoneDto } from './dto/create-parkzone.dto';
 import { UpdateParkZoneDto } from './dto/update-parkzone.dto';
@@ -34,23 +38,35 @@ export class ParkzoneService {
     return this.parkZoneRepo.find();
   }
 
-  findOne(parkZoneId: string) {
-    return this.parkZoneRepo.findOneBy({
+  async findOne(parkZoneId: string) {
+    const parkZone = await this.parkZoneRepo.findOneBy({
       id: parkZoneId,
     });
+
+    if (!parkZone) throw new NotFoundException('ParkZone not found.');
+
+    return parkZone;
   }
 
   async update(parkZoneId: string, updateParkzoneDto: UpdateParkZoneDto) {
-    const parkzone = await this.parkZoneRepo.findOneBy({
+    const parkZone = await this.parkZoneRepo.findOneBy({
       id: parkZoneId,
     });
 
-    this.parkZoneRepo.merge(parkzone, updateParkzoneDto);
+    if (!parkZone) throw new NotFoundException('ParkZone not found.');
 
-    return this.parkZoneRepo.save(parkzone);
+    this.parkZoneRepo.merge(parkZone, updateParkzoneDto);
+
+    return this.parkZoneRepo.save(parkZone);
   }
 
   async remove(parkZoneId: string) {
-    return !!(await this.parkZoneRepo.delete(parkZoneId));
+    const parkZone = await this.parkZoneRepo.findOneBy({
+      id: parkZoneId,
+    });
+
+    if (!parkZone) throw new NotFoundException('ParkZone not found.');
+
+    return await this.parkZoneRepo.delete(parkZoneId);
   }
 }

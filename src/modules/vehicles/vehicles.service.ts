@@ -1,6 +1,6 @@
 import {
+  ConflictException,
   Injectable,
-  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
@@ -27,9 +27,7 @@ export class VehiclesService {
     });
 
     if (vehicleExists) {
-      throw new InternalServerErrorException(
-        'This vehicle is already registered.',
-      );
+      throw new ConflictException('This vehicle is already registered.');
     }
 
     const parkzone = await this.parkZoneRepo.findOneBy({
