@@ -8,6 +8,7 @@ import {
   ParseUUIDPipe,
   HttpCode,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { VehiclesService } from './vehicles.service';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
@@ -28,6 +29,22 @@ export class VehiclesController {
   @Get()
   findAll() {
     return this.vehiclesService.findAll();
+  }
+
+  @Get('still-parked')
+  findAllStillParked(
+    @Query('startDate') startDate: Date,
+    @Query('endDate') endDate: Date,
+  ) {
+    return this.vehiclesService.findAllStillParked(startDate, endDate);
+  }
+
+  @Get('entrance-exit')
+  findAllEntranceExit(
+    @Query('startDate') startDate: Date,
+    @Query('endDate') endDate: Date,
+  ) {
+    return this.vehiclesService.findAllEntranceExit(startDate, endDate);
   }
 
   @Get(':licensePlate')

@@ -6,7 +6,7 @@ import {
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { UpdateVehicleDto } from './dto/update-vehicle.dto';
 import { Vehicle } from './entities/vehicle.entity';
-import { IsNull, Repository } from 'typeorm';
+import { Between, IsNull, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ParkZone } from '../parkzone/entities/parkzone.entity';
 
@@ -48,6 +48,47 @@ export class VehiclesService {
 
   findAll() {
     return this.vehicleRepo.find();
+  }
+
+  async findAllStillParked(startDate: Date, endDate: Date) {
+    const vehicles = await this.vehicleRepo.count({
+      where: {
+        parkingEntrance: Between(startDate, endDate),
+        parkingExit: IsNull(),
+        paid: false,
+      },
+    });
+
+    if (!vehicles) {
+      throw new NotFoundException('No vehicles parked.');
+    }
+
+    return {
+      parkedVehicles: vehicles,
+    };
+  }
+
+  async findAllEntranceExit(startDate: Date, endDate: Date) {
+    const qttOfEntrance = await this.vehicleRepo.findAndCount({
+      where: {
+        parkingEntrance: Between(startDate, endDate),
+      },
+    });
+
+    const qttOfExit = await this.vehicleRepo.findAndCount({
+      where: {
+        parkingExit: Between(startDate, endDate),
+      },
+    });
+
+    if (!qttOfEntrance || !qttOfExit) {
+      throw new NotFoundException('No vehicles parked.');
+    }
+
+    return {
+      entrance: qttOfEntrance,
+      exit: qttOfExit,
+    };
   }
 
   async findOne(licensePlate: string) {
