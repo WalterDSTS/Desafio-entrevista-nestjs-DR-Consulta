@@ -47,8 +47,7 @@ export class PopulateDatabase1693460562726 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `DELETE FROM user WHERE id IN ('60f2f1bc-3bab-4b9a-b318-bc21350f66f4', '12e51a0f-729f-45fd-a4cf-d14cbc1b7d93');`,
-    );
+    await queryRunner.query(`DELETE FROM vehicle`);
+    await queryRunner.query(`DELETE FROM parkzone`);
   }
 }
