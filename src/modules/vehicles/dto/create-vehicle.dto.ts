@@ -47,7 +47,7 @@ export class CreateVehicleDto {
   type: VehicleType;
 
   @ApiProperty({
-    example: '2023-05-28T20:52:01-03:00',
+    example: '2023-09-01T16:00:00-03:00',
   })
   @IsNotEmpty()
   @IsDateString()

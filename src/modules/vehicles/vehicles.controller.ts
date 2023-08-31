@@ -34,6 +34,10 @@ export class VehiclesController {
     description: 'Entry allowed.',
   })
   @ApiResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
+  @ApiResponse({
     status: 404,
     description: 'Parkzone not found.',
   })
@@ -141,6 +145,10 @@ export class VehiclesController {
   @ApiResponse({
     status: 204,
     description: 'Exit allowed.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request.',
   })
   @ApiResponse({
     status: 404,

@@ -19,6 +19,10 @@ export class AuthController {
     description: 'Signin succesfull.',
   })
   @ApiResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
+  @ApiResponse({
     status: 401,
     description: 'Invalid credentials.',
   })
@@ -37,6 +41,10 @@ export class AuthController {
   @ApiResponse({
     status: 201,
     description: 'Signup succesfull.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request.',
   })
   @ApiResponse({
     status: 409,

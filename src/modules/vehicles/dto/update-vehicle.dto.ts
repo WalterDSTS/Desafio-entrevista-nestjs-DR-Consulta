@@ -10,7 +10,7 @@ export class UpdateVehicleDto {
   paid: boolean;
 
   @ApiProperty({
-    example: '2023-05-28T21:52:01-03:00',
+    example: '2023-09-01T17:00:00-03:00',
   })
   @IsNotEmpty()
   @IsDateString()

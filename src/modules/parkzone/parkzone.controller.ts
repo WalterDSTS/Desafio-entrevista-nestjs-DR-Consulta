@@ -33,6 +33,10 @@ export class ParkzoneController {
     description: 'ParkZone created.',
   })
   @ApiResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
+  @ApiResponse({
     status: 409,
     description: 'This Parkzone is already registered.',
   })
