@@ -28,7 +28,7 @@ export class ParkZone {
   @Column({ name: 'qtt_motorcyle_spots', type: 'int' })
   qttMotorcycleSpots: number;
 
-  @Column({ name: 'qtt_cars_spots', type: 'int' })
+  @Column({ name: 'qtt_car_spots', type: 'int' })
   qttCarSpots: number;
 
   @OneToMany(() => Vehicle, (vehicle) => vehicle.parkzone)
