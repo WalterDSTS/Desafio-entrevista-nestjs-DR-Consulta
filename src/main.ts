@@ -7,6 +7,7 @@ import { ValidationPipe } from '@nestjs/common';
 import * as basicAuth from 'express-basic-auth';
 
 const SWAGGER_ENVS = ['local', 'dev', 'staging'];
+const port = 3000;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -38,6 +39,6 @@ async function bootstrap() {
     SwaggerModule.setup('api', app, document);
   }
 
-  await app.listen(3000);
+  await app.listen(port);
 }
 bootstrap();

@@ -11,9 +11,6 @@ export const dataSourceOptions: DataSourceOptions = {
   database: process.env.MYSQL_DATABASE,
   entities: ['dist/**/*.entity.js'],
   migrations: ['dist/shared/database/migrations/*.js'],
-  // autoLoadEntities: true,
-  // synchronize: true,
-  logging: true,
 };
 
 const dataSource = new DataSource(dataSourceOptions);
