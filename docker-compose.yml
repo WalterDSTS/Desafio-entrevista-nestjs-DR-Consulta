@@ -10,7 +10,5 @@ services:
   db:
     image: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: drc_test
-      MYSQL_USERNAME: dev
-      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password@drc
+      MYSQL_DATABASE: drc_challenge
