@@ -7,6 +7,7 @@ import { ValidationPipe } from '@nestjs/common';
 import * as basicAuth from 'express-basic-auth';
 
 const SWAGGER_ENVS = ['local', 'dev', 'staging', 'prod'];
+const port = parseInt(process.env.PORT) || 8080;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -42,6 +43,6 @@ async function bootstrap() {
     origin: '*',
   });
 
-  await app.listen(parseInt(process.env.APP_PORT));
+  await app.listen(port);
 }
 bootstrap();

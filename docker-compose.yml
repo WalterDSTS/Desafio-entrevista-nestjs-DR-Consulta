@@ -3,12 +3,14 @@ services:
   app:
     build: .
     ports:
-      - "3000:3000"
+      - "8080:8080"
     depends_on:     
       - db
     
   db:
     image: mysql
+    ports:
+      - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: password@drc
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: drc_challenge

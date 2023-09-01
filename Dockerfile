@@ -15,4 +15,5 @@ COPY yarn.lock .
 RUN yarn install --only=prod
 COPY . .
 COPY --from=development /usr/src/app/dist ./dist
+RUN yarn migration:run
 CMD yarn start:prod
